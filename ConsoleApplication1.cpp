@@ -5,6 +5,7 @@
 using namespace std;
 
 void print(int*, int, bool);
+void li(int*, int);
 void add(int*, int*, int*);
 void sub(int*, int*, int*);
 void mul(int*, int*, int*);
@@ -16,6 +17,19 @@ void muli(int*, int*, int);
 void ANDI(int*, int*, int);
 void ORI(int*, int*, int);
 void XORI(int*, int*, int);
+void LUI(int*, int);
+void AUIPC(int*, int, int);
+void slt(int*, int*, int*);
+void slti(int*, int*, int);
+void sra(int*, int*, int*);
+void srai(int*, int*, int);
+void srl(int*, int*, int*);
+void srli(int*, int*, int);
+void sll(int*, int*, int*);
+void slli(int*, int*, int);
+void sltu(int*, int*, int*);
+void sltiu(int*, int*, int);
+
 
 /*bool beq(int*, int*);
 bool bne(int*, int*);
@@ -25,6 +39,7 @@ bool bltu(int*, int*);
 bool bgeu(int*, int*);*/
 
 int main() {
+	int pc = 0;
 	int* x0, * x5, * x6, * x7, * x28, * x29, * x30, * x31, * rd, * rs1, * rs2;
 
 	bool x0Flag = false, x5Flag = false, x6Flag = false, x7Flag = false, x28Flag = false, x29Flag = false, x30Flag = false, x31Flag = false;
@@ -69,15 +84,16 @@ int main() {
 			textFile >> rdTemp;
 			textFile >> rs1Temp;
 
-			if ((instruction == "add") || (instruction == "sub") || (instruction == "mul") || (instruction == "and") || (instruction == "or") || (instruction == "xor"))
+			if ((instruction == "add") || (instruction == "sub") || (instruction == "mul") || (instruction == "and") || (instruction == "or") || (instruction == "xor") || (instruction == "slt") || (instruction == "sra") || (instruction == "srl") || (instruction == "sll") || (instruction == "sltu"))
 				textFile >> rs2Temp;
 
-			else if ((instruction == "addi") || (instruction == "muli") || (instruction == "andi") || (instruction == "ori") || (instruction == "xori"))
+			else if ((instruction == "addi") || (instruction == "muli") || (instruction == "andi") || (instruction == "ori") || (instruction == "xori") || (instruction == "slti") || (instruction == "srai") || (instruction == "srli") || (instruction == "slli") || (instruction == "sltiu"))
 				textFile >> immediate;
 
 			/*else if ((instruction == "beq") || (instruction == "bne") || (instruction == "blt") || (instruction == "bge") || (instruction == "bltu") || (instruction == "bgeu"))
 				textFile >> label;*/
 
+				// assigning the destination register
 			if (rdTemp == "x0,") {
 				cout << "You can not change the value of the saved register x0.\n";
 				return 0;
@@ -111,6 +127,7 @@ int main() {
 				x31Flag = true;
 			}
 
+			// assigning the first source register
 			if (rs1Temp == "x0,")
 				rs1 = x0;
 			else if (rs1Temp == "x5,")
@@ -128,7 +145,8 @@ int main() {
 			else if (rs1Temp == "x31,")
 				rs1 = x31;
 
-			if ((instruction == "add") || (instruction == "sub") || (instruction == "mul") || (instruction == "and") || (instruction == "or") || (instruction == "xor")) {
+			// assigning the second source register if needed
+			if ((instruction == "add") || (instruction == "sub") || (instruction == "mul") || (instruction == "and") || (instruction == "or") || (instruction == "xor") || (instruction == "slt") || (instruction == "sra") || (instruction == "srl") || (instruction == "sll") || (instruction == "sltu")) {
 
 				if (rs2Temp == "x0")
 					rs2 = x0;
@@ -170,6 +188,34 @@ int main() {
 				ORI(rd, rs1, stoi(immediate));
 			else if (instruction == "xori")
 				XORI(rd, rs1, stoi(immediate));
+			else if (instruction == "lui")
+				LUI(rd, stoi(rs1Temp));
+			else if (instruction == "auipc")
+				AUIPC(rd, stoi(rs1Temp), pc);
+			else if (instruction == "slt")
+				slt(rd, rs1, rs2);
+			else if (instruction == "slti")
+				slti(rd, rs1, stoi(immediate));
+			else if (instruction == "li")
+				li(rd, stoi(rs1Temp));
+			else if (instruction == "sra")
+				sra(rd, rs1, rs2);
+			else if (instruction == "srai")
+				srai(rd, rs1, stoi(immediate));
+			else if (instruction == "srl")
+				srl(rd, rs1, rs2);
+			else if (instruction == "srli")
+				srli(rd, rs1, stoi(immediate));
+			else if (instruction == "sll")
+				sll(rd, rs1, rs2);
+			else if (instruction == "slli")
+				slli(rd, rs1, stoi(immediate));
+			else if (instruction == "sltu")
+				sltu(rd, rs1, rs2);
+			else if (instruction == "sltiu")
+				sltiu(rd, rs1, stoi(immediate));
+
+			pc++;
 		}
 	}
 	else
@@ -238,6 +284,10 @@ void print(int* x, int y, bool f) {
 		}
 	}
 }
+void li(int* x, int y)
+{
+	*x = y;
+}
 void add(int* x, int* y, int* z) {
 	*x = *y + *z;
 }
@@ -270,6 +320,86 @@ void ORI(int* x, int* y, int z) {
 }
 void XORI(int* x, int* y, int z) {
 	*x = *y ^ z;
+}
+void LUI(int* x, int y) {
+	*x = y << 12;
+}
+void AUIPC(int* x, int y, int z) {
+	*x = z + (y << 12);
+}
+void slt(int* x, int* y, int* z)
+{
+	if (*y < *z)
+		*x = 1;
+	else
+		*x = 0;
+}
+void slti(int* x, int* y, int z)
+{
+	if (*y < z)
+		*x = 1;
+	else
+		*x = 0;
+}
+void sra(int* x, int* y, int* z)
+{
+	int temp = *z & 0b11111;
+	*x = *y >> temp;
+}
+void srai(int* x, int* y, int z)
+{
+	int temp = z & 0b11111;
+	*x = *y >> temp;
+}
+void srl(int* x, int* y, int* z)
+{
+	int temp = *z & 0b11111;
+	*x = static_cast<uint32_t>(*y) >> temp;
+	cout << "in srl x = " << *x << endl;
+}
+void srli(int* x, int* y, int z)
+{
+	int temp = z & 0b11111;
+	*x = static_cast<uint32_t>(*y) >> temp;
+}
+void sll(int* x, int* y, int* z)
+{
+	int temp = *z & 0b11111;
+	*x = *y << temp;
+}
+
+void slli(int* x, int* y, int z)
+{
+	int temp = z & 0b11111;
+	*x = *y << temp;
+}
+void sltu(int* x, int* y, int* z)
+{
+	uint32_t unsigned_y = static_cast<uint32_t>(*y);
+	uint32_t unsigned_z = static_cast<uint32_t>(*z);
+
+	if (unsigned_y < unsigned_z)
+	{
+		*x = 1;
+	}
+	else
+	{
+		*x = 0;
+	}
+}
+void sltiu(int* x, int* y, int z)
+{
+	uint32_t unsigned_y = static_cast<uint32_t>(*y);
+	uint32_t unsigned_z = static_cast<uint32_t>(z);
+
+	if (unsigned_y < unsigned_z)
+	{
+		*x = 1;
+	}
+	else
+	{
+		*x = 0;
+	}
 }
 
 /*bool beq(int* x, int* y) {
