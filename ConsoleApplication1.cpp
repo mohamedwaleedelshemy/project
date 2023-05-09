@@ -27,13 +27,11 @@ bool bgeu(int*, int*);*/
 int main() {
 	int* x0, * x5, * x6, * x7, * x28, * x29, * x30, * x31, * rd, * rs1, * rs2;
 
-	bool flag[32];
-	for (int i = 0; i <= 31; i++)
-		flag[i] = false;
+	bool x0Flag = false, x5Flag = false, x6Flag = false, x7Flag = false, x28Flag = false, x29Flag = false, x30Flag = false, x31Flag = false;
 
 	x0 = new int;
 	*x0 = 0;
-	flag[0] = true;
+	x0Flag = true;
 
 	x5 = new int;
 	x6 = new int;
@@ -53,14 +51,14 @@ int main() {
 	ifstream textFile;
 
 	cout << "Registers before implementing the instructions:\n";
-	print(x0, 0, flag[0]);
-	print(x5, 5, flag[5]);
-	print(x6, 6, flag[6]);
-	print(x7, 7, flag[7]);
-	print(x28, 28, flag[28]);
-	print(x29, 29, flag[29]);
-	print(x30, 30, flag[30]);
-	print(x31, 31, flag[31]);
+	print(x0, 0, x0Flag);
+	print(x5, 5, x5Flag);
+	print(x6, 6, x6Flag);
+	print(x7, 7, x7Flag);
+	print(x28, 28, x28Flag);
+	print(x29, 29, x29Flag);
+	print(x30, 30, x30Flag);
+	print(x31, 31, x31Flag);
 	cout << endl;
 
 	textFile.open("testCase.txt");
@@ -86,31 +84,31 @@ int main() {
 			}
 			else if (rdTemp == "x5,") {
 				rd = x5;
-				flag[5] = true;
+				x5Flag = true;
 			}
 			else if (rdTemp == "x6,") {
 				rd = x6;
-				flag[6] = true;
+				x6Flag = true;
 			}
 			else if (rdTemp == "x7,") {
 				rd = x7;
-				flag[7] = true;
+				x7Flag = true;
 			}
 			else if (rdTemp == "x28,") {
 				rd = x28;
-				flag[28] = true;
+				x28Flag = true;
 			}
 			else if (rdTemp == "x29,") {
 				rd = x29;
-				flag[29] = true;
+				x29Flag = true;
 			}
 			else if (rdTemp == "x30,") {
 				rd = x30;
-				flag[30] = true;
+				x30Flag = true;
 			}
 			else if (rdTemp == "x31,") {
 				rd = x31;
-				flag[31] = true;
+				x31Flag = true;
 			}
 
 			if (rs1Temp == "x0,")
@@ -178,14 +176,14 @@ int main() {
 		cout << "File does not exists\n";
 
 	cout << "Registers after implementing the instructions:\n";
-	print(x0, 0, flag[0]);
-	print(x5, 5, flag[5]);
-	print(x6, 6, flag[6]);
-	print(x7, 7, flag[7]);
-	print(x28, 28, flag[28]);
-	print(x29, 29, flag[29]);
-	print(x30, 30, flag[30]);
-	print(x31, 31, flag[31]);
+	print(x0, 0, x0Flag);
+	print(x5, 5, x5Flag);
+	print(x6, 6, x6Flag);
+	print(x7, 7, x7Flag);
+	print(x28, 28, x28Flag);
+	print(x29, 29, x29Flag);
+	print(x30, 30, x30Flag);
+	print(x31, 31, x31Flag);
 	cout << endl;
 
 	system("pause");
