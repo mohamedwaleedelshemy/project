@@ -105,7 +105,7 @@ int main() {
 
 			textFile >> temp;
 
-			if ((temp == "add") || (temp == "sub") || (temp == "mul") || (temp == "and") || (temp == "or") || (temp == "xor") || (temp == "addi") || (temp == "muli") || (temp == "andi") || (temp == "ori") || (temp == "xori") || (temp == "beq") || (temp == "bne") || (temp == "blt") || (temp == "bge") || (temp == "bltu") || (temp == "bgeu") || (temp == "li") || (temp == "LUI") || (temp == "AUIPC") || (temp == "slt") || (temp == "slti") || (temp == "sra") || (temp == "srai") || (temp == "srl") || (temp == "srli") || (temp == "sll") || (temp == "slli") || (temp == "sltu") || (temp == "sltui") || (temp == "lw") || (temp == "lh") || (temp == "lb") || (temp == "lhu") || (temp == "lbu") || (temp == "sw") || (temp == "sh") || (temp == "sb"))
+			if ((temp == "add") || (temp == "sub") || (temp == "mul") || (temp == "and") || (temp == "or") || (temp == "xor") || (temp == "addi") || (temp == "muli") || (temp == "andi") || (temp == "ori") || (temp == "xori") || (temp == "beq") || (temp == "bne") || (temp == "blt") || (temp == "bge") || (temp == "bltu") || (temp == "bgeu") || (temp == "li") || (temp == "lui") || (temp == "auipc") || (temp == "slt") || (temp == "slti") || (temp == "sra") || (temp == "srai") || (temp == "srl") || (temp == "srli") || (temp == "sll") || (temp == "slli") || (temp == "sltu") || (temp == "sltui") || (temp == "lw") || (temp == "lh") || (temp == "lb") || (temp == "lhu") || (temp == "lbu") || (temp == "sw") || (temp == "sh") || (temp == "sb"))
 				instruction = temp;
 			else
 				textFile >> instruction;
@@ -296,9 +296,9 @@ int main() {
 			}
 			else if (instruction == "li")
 				li(rd, stoi(rs1Temp));
-			else if (instruction == "LUI")
+			else if (instruction == "lui")
 				LUI(rd, stoi(rs1Temp));
-			else if (instruction == "AUIPC")
+			else if (instruction == "auipc")
 				AUIPC(rd, stoi(rs1Temp), pc);
 			else if (instruction == "slt")
 				slt(rd, rs1, rs2);
