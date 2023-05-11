@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include<bitset>
 
 using namespace std;
 
@@ -369,50 +370,13 @@ void get_offset(string& rs1Temp, int& offset) {
 void print(int* x, int y, bool f) {
 	if (f == false)
 		cout << "x" << y << " is not yet initialized.\n";
-
 	else {
 		cout << "x" << y << " =\n" << "Decimal: " << *x << "\n";
+		bitset<32> binary(*x);
+		cout << "Binary: " << binary << "\n";
 
-		if (*x == 0)
-			cout << "Binary: 0\n";
-
-		else {
-			int decimal = *x, binary = 0, remainder, product = 1;
-			while (decimal != 0) {
-				remainder = decimal % 2;
-				binary = binary + (remainder * product);
-				decimal = decimal / 2;
-				product *= 10;
-			}
-			cout << "Binary: " << binary << "\n";
-		}
-
-		if (*x == 0)
-			cout << "Hexadecimal: 0\n";
-
-		else {
-			string hexadecimal = "";
-			int n = *x;
-			while (n != 0) {
-				int r = 0;
-				char c;
-				r = n % 16;
-				if (r < 10)
-					c = r + 48;
-				else
-					c = r + 55;
-				hexadecimal += c;
-				n = n / 16;
-			}
-			int i = 0, j = hexadecimal.size() - 1;
-			while (i <= j)
-			{
-				swap(hexadecimal[i], hexadecimal[j]);
-				i++;
-				j--;
-			}
-			cout << "Hexadecimal: " << hexadecimal << "\n";
-		}
+		cout << "Hexadecimal: ";
+		cout << hex << *x << dec << "\n";
 	}
 }
 void add(int* x, int* y, int* z) {
